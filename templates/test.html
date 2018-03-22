@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="myFacebookLogin()">Login with Facebook</button>
+</body>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '1842575416062669',
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v2.12'
+        });
+
+        FB.getLoginStatus(function (response) {
+            if (response.status === 'connected') {
+                FB.api('/me/feed', function (response) {
+                    if (response && !response.error) {
+                        console.log(response)
+                    }
+                    else{
+                        console.log("error")
+                    }
+                });
+            }
+            else {
+                FB.login();
+            }
+        });
+
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+
+    function myFacebookLogin() {
+        FB.login(function () {
+            // Note: The call will only work if you accept the permission request
+            FB.api('/100004975714608/posts', function (response) {
+                if (response && !response.error) {
+                    console.log(response)
+                }
+            });
+        }, { scope: 'publish_actions,user_friends, public_profile,user_posts,user_status' });
+    }
+
+</script>
+
+</html>
